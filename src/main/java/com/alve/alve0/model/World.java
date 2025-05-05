@@ -9,17 +9,18 @@ public class World {
     private List<Food> foods = new ArrayList<>();
     private static final int INITIAL_ENTITIES = 20;
     private static final int INITIAL_FOOD = 1000;
+    private static final int width = 1000;
+    private static final int height = 800;
 
     public World() {
-        initializeEntities(); // metodo per inizializzare le entità
-        initializeFood(); // metodo per inizializzare il cibo
-        // ho separato i metodi per gestire meglio le cose
+        initializeEntities();
+        initializeFood();
     }
 
     private void initializeEntities() {
         for (int i = 0; i < INITIAL_ENTITIES; i++) {
-            double x = Math.random() * 800;
-            double y = Math.random() * 600;
+            double x = Math.random() * width;
+            double y = Math.random() * height;
             System.out.println("Creating entity at: " + x + ", " + y);
             entities.add(new Entity(x, y));
         }
@@ -27,8 +28,8 @@ public class World {
 
     public void initializeFood() {
         for (int i = 0; i < INITIAL_FOOD; i++) {
-            double x = Math.random() * 800;
-            double y = Math.random() * 600;
+            double x = Math.random() * width;
+            double y = Math.random() * height;
             foods.add(new Food(x, y));
         }
     }
@@ -52,11 +53,15 @@ public class World {
         //entities.addAll(newEntities); // solo nuovi vivi
     }
 
+    public void addEntity(Entity entity) {
+        entities.add(entity);
+    }
+
     // Occasionally add new food
     public void addRandomFood(int count) {
         for (int i = 0; i < count; i++) {
-            double x = Math.random() * 800;
-            double y = Math.random() * 600;
+            double x = Math.random() * width;
+            double y = Math.random() * height;
             foods.add(new Food(x, y));
         }
     }
@@ -64,8 +69,13 @@ public class World {
     public List<Entity> getEntities() {
         return entities;
     }
-
     public List<Food> getFoods() {
         return foods;
+    }
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
     }
 }

@@ -1,36 +1,52 @@
 package com.alve.alve0.view;
 
-import com.alve.alve0.model.Food;
-import com.alve.alve0.model.World;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 public class SimulationView {
-    private Canvas canvas;
-    private GraphicsContext gc;
 
-    public SimulationView() {
-        this.canvas = new Canvas(800, 600);
-        this.gc = canvas.getGraphicsContext2D();
+    private BorderPane rootPane;
+    private WorldCanvas worldCanvas;
+    private EntityInfoPane entityInfoPane;
+    private ControlPanelPane controlPanelPane;
+
+    public SimulationView(double worldWidth, double worldHeight) {
+        rootPane = new BorderPane();
+
+        // Crea le componenti della vista
+        worldCanvas = new WorldCanvas(worldWidth, worldHeight);
+        entityInfoPane = new EntityInfoPane();
+        controlPanelPane = new ControlPanelPane();
+
+        // Assembla le componenti nel layout principale
+        rootPane.setCenter(worldCanvas); // Canvas al centro
+
+        // Metti i pannelli di controllo e info in un VBox a destra
+        VBox rightPanel = new VBox(10); // Spaziatura tra i due pannelli
+        rightPanel.getChildren().addAll(controlPanelPane, entityInfoPane);
+        rootPane.setRight(rightPanel);
+
+        // Puoi aggiungere altri elementi come menu, barre di stato, ecc.
+        // rootPane.setTop(createMenuBar());
+        // rootPane.setBottom(createStatusBar());
     }
 
-    public Canvas getCanvas() {
-        return canvas;
+    // Metodo per ottenere il nodo radice della vista da mettere nella Scene
+    public Parent getRoot() {
+        return rootPane;
     }
 
-    public void drawEntity(double x, double y) {
-        gc.setFill(Color.RED);
-        gc.fillOval(x, y, 10, 10);
+    // Metodi per accedere alle sotto-viste (utili per il Controller)
+    public WorldCanvas getWorldCanvas() {
+        return worldCanvas;
     }
 
-    public void drawFood(double x, double y) {
-        gc.setFill(Color.GREEN);
-        gc.fillOval(x, y, 6, 6);
+    public EntityInfoPane getEntityInfoPane() {
+        return entityInfoPane;
     }
 
-    public void clear() {
-        gc.setFill(Color.DARKGRAY);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    public ControlPanelPane getControlPanelPane() {
+        return controlPanelPane;
     }
 }

@@ -1,4 +1,63 @@
 package com.alve.alve0.view;
 
-public class WorldCanvas {
+import com.alve.alve0.model.Entity;
+import com.alve.alve0.model.Food;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import java.util.List;
+import java.util.function.Consumer;
+
+public class WorldCanvas extends Canvas {
+
+    private GraphicsContext gc;
+    private Consumer<MouseEvent> mouseClickHandler; // Callback per notificare il controller del click
+
+    public WorldCanvas(double width, double height) {
+        super(width, height);
+        this.gc = getGraphicsContext2D();
+
+        this.setOnMouseClicked(event -> {
+            if (mouseClickHandler != null) {
+                mouseClickHandler.accept(event); // Passa l'evento al gestore esterno (Controller)
+            }
+        });
+    }
+
+    public void render(List<Entity> entities, List<Food> foods, Entity selectedEntity) {
+        clear();
+
+        // 2. Disegna il cibo
+        gc.setFill(Color.GREEN);
+        for (Food food : foods) {
+            gc.fillOval(food.getX() - 3, food.getY() - 3, 6, 6); // -3 per centrare
+        }
+
+        // 3. Disegna le entità
+        gc.setFill(Color.RED); // Colore di default
+        for (Entity entity : entities) {
+            // Assumendo che Entity abbia getX() e getY()
+            double size = 10; // Dimensione base
+            if (entity.equals(selectedEntity)) {
+                // Evidenzia l'entità selezionata
+                gc.setFill(Color.YELLOW);
+                gc.fillOval(entity.getX() - (size/2.0), entity.getY() - (size/2.0), size, size);
+                gc.setStroke(Color.BLACK);
+                gc.strokeOval(entity.getX() - (size/2.0), entity.getY() - (size/2.0), size, size);
+                gc.setFill(Color.RED); // Reimposta per le prossime
+            } else {
+                gc.fillOval(entity.getX() - (size/2.0), entity.getY() - (size/2.0), size, size);
+            }
+        }
+    }
+
+    private void clear() {
+        gc.setFill(Color.DARKGRAY); // Colore dello sfondo
+        gc.fillRect(0, 0, getWidth(), getHeight());
+    }
+
+    public void setOnCanvasMouseClicked(Consumer<MouseEvent> handler) {
+        this.mouseClickHandler = handler;
+    }
 }

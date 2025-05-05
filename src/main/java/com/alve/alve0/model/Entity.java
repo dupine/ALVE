@@ -7,10 +7,13 @@ public class Entity {
     public double x, y;
     public double energy = 500;
     private static final Random random = new Random();
+    public int id;
+    private static int idCounter = 1; // Contatore per ID sequenziali;
 
     public Entity(double x, double y) {
         this.x = x;
         this.y = y;
+        this.id = idCounter++;
     }
 
     public void update(World world) {
@@ -33,11 +36,13 @@ public class Entity {
         return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
-
     public boolean isAlive() {
         return energy > 0;
     }
 
+    // getter and setter
     public double getX() { return x; }
     public double getY() { return y; }
+
+    public int getId() { return id; }
 }
