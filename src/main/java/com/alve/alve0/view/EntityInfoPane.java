@@ -1,6 +1,6 @@
 package com.alve.alve0.view;
 
-import com.alve.alve0.model.Entity; // Assumendo tu abbia una classe Entity
+import com.alve.alve0.model.Entity;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -18,8 +18,8 @@ public class EntityInfoPane extends VBox {
     public EntityInfoPane() {
         super(10); // Spaziatura verticale tra elementi
         setPadding(new Insets(15));
-        setStyle("-fx-background-color: #EEEEEE;"); // Sfondo leggermente diverso
-        setMinWidth(200); // Larghezza minima
+        setStyle("-fx-background-color: #EEEEEE;");
+        setMinWidth(200);
 
         titleLabel = new Label("Entity Information");
         titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
@@ -33,17 +33,12 @@ public class EntityInfoPane extends VBox {
         getChildren().addAll(titleLabel, idLabel, positionLabel, energyLabel, dnaLabel);
     }
 
-    // Metodo per aggiornare le informazioni visualizzate
     public void displayEntityInfo(Entity entity) {
-        if (entity != null) {
-            // Assumendo che Entity abbia questi metodi getter
+        if (entity != null && entity.isAlive()) {
             idLabel.setText("ID: " + entity.getId());
             positionLabel.setText(String.format("Position: (%.1f, %.1f)", entity.getX(), entity.getY()));
-            // Aggiungi qui l'aggiornamento per altri parametri (energia, DNA, ecc.)
-            // energyLabel.setText("Energy: " + entity.getEnergy());
-            // dnaLabel.setText("DNA: " + entity.getDnaAsString()); // Esempio
+            energyLabel.setText("Energy: " + entity.getEnergy());
         } else {
-            // Nessuna entità selezionata, resetta le label
             idLabel.setText("ID: ---");
             positionLabel.setText("Position: ---");
             energyLabel.setText("Energy: ---");

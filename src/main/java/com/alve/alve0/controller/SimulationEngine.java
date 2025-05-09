@@ -3,6 +3,7 @@ package com.alve.alve0.controller;
 import com.alve.alve0.model.Entity;
 import com.alve.alve0.model.World;
 
+// Questo è il motore di simulazione principale che gestisce il ciclo di vita della simulazione
 public class SimulationEngine {
     private World world;
     // Riferimenti ad altri manager (EntityManager, EvolutionManager, etc.)
@@ -33,6 +34,7 @@ public class SimulationEngine {
 
         // 4. Aggiorna statistiche
         // statsManager.updateStats(world);
+
     }
 
     public void start() { isPaused = false; }

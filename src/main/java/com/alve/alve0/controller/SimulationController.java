@@ -1,12 +1,12 @@
 package com.alve.alve0.controller;
 
-import com.alve.alve0.model.Food;
 import javafx.animation.AnimationTimer;
 import com.alve.alve0.model.World;
 import com.alve.alve0.view.SimulationView;
 import com.alve.alve0.model.Entity;
 import javafx.scene.input.MouseEvent;
 
+//questo controller gestisce il ciclo di animazione e le interazioni con la vista
 public class SimulationController implements SimulationControlListener {
 
     private SimulationEngine engine;
@@ -40,10 +40,13 @@ public class SimulationController implements SimulationControlListener {
                 lastUpdate = now;
 
                 if (isRunning) {
+
+                    view.getEntityInfoPane().displayEntityInfo(selectedEntity);
+
                     // Esegui N passi di simulazione in base alla velocità
                     int steps = (int) Math.max(1, Math.round(deltaTime * 60 * speedFactor)); // Esempio: target 60 UPS
                     for (int i = 0; i < steps; i++) {
-                        engine.tick(); // Aggiorna la logica della simulazione
+                        engine.tick();
                     }
                 }
 
@@ -100,20 +103,12 @@ public class SimulationController implements SimulationControlListener {
         System.out.println("Speed factor changed to: " + newSpeedFactor);
     }
 
-    // --- Gestione Click sul Canvas ---
     public void handleCanvasClick(MouseEvent event) {
         double clickX = event.getX();
         double clickY = event.getY();
-        System.out.println("Canvas clicked at: (" + clickX + ", " + clickY + ")");
 
-        // Trova l'entità più vicina al click (logica semplificata)
         selectedEntity = findEntityAt(clickX, clickY);
-
-        // Aggiorna il pannello delle informazioni
-        view.getEntityInfoPane().displayEntityInfo(selectedEntity);
-
-        // Ridisegna il canvas per evidenziare la selezione (il game loop lo farà comunque)
-        // view.getWorldCanvas().render(world.getEntities(), world.getFood(), selectedEntity);
+        //view.getWorldCanvas().render(world.getEntities(), world.getFoods(), selectedEntity);
     }
 
     private Entity findEntityAt(double x, double y) {

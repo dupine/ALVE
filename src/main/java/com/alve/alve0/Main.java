@@ -21,13 +21,11 @@ public class Main extends Application {
         mainView.getControlPanelPane().setControlListener(controller);
         mainView.getWorldCanvas().setOnCanvasMouseClicked(controller::handleCanvasClick);
 
-        // Imposto la scena principale
         Scene scene = new Scene(mainView.getRoot());
         primaryStage.setTitle("ALVE Simulation");
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        // Avvia il ciclo di animazione
         controller.startAnimationLoop();
     }
 }

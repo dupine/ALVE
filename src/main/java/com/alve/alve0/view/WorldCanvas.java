@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 public class WorldCanvas extends Canvas {
 
     private GraphicsContext gc;
-    private Consumer<MouseEvent> mouseClickHandler; // Callback per notificare il controller del click
+    private Consumer<MouseEvent> mouseClickHandler;
 
     public WorldCanvas(double width, double height) {
         super(width, height);
@@ -45,10 +45,51 @@ public class WorldCanvas extends Canvas {
                 gc.fillOval(entity.getX() - (size/2.0), entity.getY() - (size/2.0), size, size);
                 gc.setStroke(Color.BLACK);
                 gc.strokeOval(entity.getX() - (size/2.0), entity.getY() - (size/2.0), size, size);
-                gc.setFill(Color.RED); // Reimposta per le prossime
+                gc.setFill(Color.RED);
             } else {
                 gc.fillOval(entity.getX() - (size/2.0), entity.getY() - (size/2.0), size, size);
             }
+        }
+
+        if (selectedEntity != null) {
+            drawEntityVision(gc, selectedEntity);
+        }
+    }
+
+    private void drawEntityVision(GraphicsContext gc, Entity entity) {
+        double entityX = entity.getX();
+        double entityY = entity.getY();
+        double sensorRange = entity.getSensorRange();
+
+        // A. Disegna il cerchio del raggio sensoriale
+        gc.setStroke(Color.LIGHTBLUE);
+        gc.setLineWidth(1);
+        gc.strokeOval(entityX - sensorRange, entityY - sensorRange, sensorRange * 2, sensorRange * 2);
+
+        // B. Disegna linee verso il cibo visibile
+        List<Food> visibleFood = entity.getVisibleFoodItems(); // Ottieni cibo visibile dall'entità
+        if (visibleFood != null) {
+            gc.setStroke(Color.CYAN); // Colore per il cibo genericamente visibile
+            gc.setLineWidth(0.5);
+            for (Food foodItem : visibleFood) {
+                // Non disegnare una linea verso il targetFood qui, lo faremo dopo con un colore diverso
+                if (foodItem != entity.getTargetFood()) {
+                    gc.strokeLine(entityX, entityY, foodItem.getX(), foodItem.getY());
+                }
+            }
+        }
+
+        // C. Disegna una linea evidenziata verso il targetFood
+        Food target = entity.getTargetFood();
+        if (target != null) {
+            gc.setStroke(Color.ORANGE); // Colore per il target attuale
+            gc.setLineWidth(2); // Linea più spessa
+            gc.strokeLine(entityX, entityY, target.getX(), target.getY());
+
+            // Opzionale: evidenzia anche l'oggetto cibo target
+            gc.setStroke(Color.ORANGERED);
+            gc.setLineWidth(1.5);
+            gc.strokeOval(target.getX() - 3, target.getY() - 3, 6, 6); // Cerchio attorno al cibo target
         }
     }
 

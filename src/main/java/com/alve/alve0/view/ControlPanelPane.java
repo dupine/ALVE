@@ -19,7 +19,7 @@ public class ControlPanelPane extends VBox {
     private Label speedLabel;
 
     private SimulationControlListener listener;
-    private boolean isPlaying = false; // Stato interno per cambiare testo bottone
+    private boolean isPlaying = false;
 
     public ControlPanelPane() {
         super(15); // Spaziatura
@@ -74,12 +74,11 @@ public class ControlPanelPane extends VBox {
         getChildren().addAll(title, playPauseButton, stepButton, addEntityButton, speedLabel, speedSlider);
     }
 
-    // Metodo per collegare il pannello al suo listener (il Controller)
+    // collego il listener al controller, passandolo come parametro
     public void setControlListener(SimulationControlListener listener) {
         this.listener = listener;
     }
 
-    // Potrebbe servire per aggiornare lo stato del bottone Play/Pause dall'esterno
     public void updatePlayPauseButtonState(boolean isSimulationRunning) {
         this.isPlaying = isSimulationRunning;
         playPauseButton.setText(isPlaying ? "Pause" : "Play");
