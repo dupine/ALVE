@@ -1,6 +1,6 @@
 # ALVE (Artificial Life Virtual Environment)
 
-![DNA Icon](https://img.icons8.com/plasticine/100/000000/dna-helix.png) <!-- Puoi sostituire con un tuo logo o rimuovere -->
+![DNA Icon](https://www.antoniopino.it/images/logoAlve.png)
 
 Una simulazione di vita artificiale basata su ecosistemi, evoluzione genetica realistica (mutazioni, crossover), speciazione e reti neurali per il controllo delle entità. Il progetto è sviluppato in Java utilizzando JavaFX per l'interfaccia grafica e la visualizzazione.
 
@@ -73,9 +73,9 @@ Assicurati di avere installato:
 Ecco i passaggi pianificati per lo sviluppo:
 
 *   [x] Cartelle progetto, file e struttura di collegamento fra i vari file <!-- Segna con 'x' quando completato -->
-*   [ ] Entità (oggetti) senza parametri che si muovono in maniera casuale per la mappa
-*   [ ] Entità con parametri, ogni entità è selezionabile ed è possibile visualizzare i suoi parametri
-*   [ ] E' possibile aggiungere entità dove si vuole con il nuovo menu presente a destra dello schermo
+*   [x] Entità (oggetti) senza parametri che si muovono in maniera casuale per la mappa
+*   [x] Entità con parametri, ogni entità è selezionabile ed è possibile visualizzare i suoi parametri
+*   [x] E' possibile aggiungere entità dove si vuole con il nuovo menu presente a destra dello schermo
 *   [ ] Implementazione Genetica Base (DNA, Attributi, Interprete Genoma)
 *   [ ] Implementazione Sistema di Sopravvivenza (Energia, Metabolismo, Cibo) e Riproduzione (con Ereditarietà e Variazione Genetica)
 *   [ ] Implementazione Intelligenza Artificiale (Reti Neurali, Sensori, Attuatori)

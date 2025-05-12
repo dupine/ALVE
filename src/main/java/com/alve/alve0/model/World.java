@@ -60,7 +60,7 @@ public class World {
             }
         }
 
-        addRandomFood(100);
+        addRandomFood(5);
 
         //entities.addAll(newEntities); // solo nuovi vivi
     }

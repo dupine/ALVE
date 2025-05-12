@@ -11,8 +11,8 @@ public class Entity {
     private static int idCounter = 1;
     private static final double sensorRange = 50;
     private Food targetFood;
-    private final double speed = 5.0;
-    private List<Food> nearbyFoodItems = new ArrayList<>(); ; // Nuova lista per il cibo attualmente visibile
+    private final double speed = 2.0;
+    private List<Food> nearbyFoodItems = new ArrayList<>();
 
     public Entity(double x, double y) {
         this.x = x;
