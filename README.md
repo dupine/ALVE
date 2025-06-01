@@ -1,5 +1,7 @@
 # ALVE (Artificial Life Virtual Enviroment)
-<img src="images/logo.png" alt="Logo" width="200"/>
+<p align="center">
+  <img src="images/logo.png" alt="Logo" width="200">
+</p>
 
 
 ## Overview
@@ -13,7 +15,9 @@ The goal of this project is to simulate the life and evolution of intelligent en
 
 The initial version of the program is a simple random movement simulation. Entities do not have a decision-making system and wander aimlessly. Using a Spatial HashMap algorithm, they can detect nearby food sources within a certain range and move toward them. If they fail to find food within a predefined number of ticks, they die.
 
-![png](/images/screenshots/SpatialHashMapExample.png)
+<p align="center">
+  <img src="/images/screenshots/SpatialHashMapExample.png" alt="Spatial HashMap Example" width="500">
+</p>
 
 ## TODO
 - [ ] Reproduction system
