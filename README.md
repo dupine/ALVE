@@ -1,5 +1,6 @@
 # ALVE (Artificial Life Virtual Enviroment)
-[![Logo](images/logo.png)
+<img src="images/logo.png" alt="Logo" width="200"/>
+
 
 ## Overview
 
