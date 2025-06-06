@@ -28,17 +28,15 @@ public class WorldCanvas extends Canvas {
     public void render(List<Entity> entities, List<Food> foods, Entity selectedEntity) {
         clear();
 
-        // 2. Disegna il cibo
         gc.setFill(Color.GREEN);
         for (Food food : foods) {
             gc.fillOval(food.getX() - 3, food.getY() - 3, 6, 6); // -3 per centrare
         }
 
-        // 3. Disegna le entità
-        gc.setFill(Color.RED); // Colore di default
         for (Entity entity : entities) {
-            // Assumendo che Entity abbia getX() e getY()
-            double size = 10; // Dimensione base
+
+            double size = entity.getGenome().getSize();
+            gc.setFill(Color.rgb((int) entity.getGenome().getRed(), (int) entity.getGenome().getGreen(), (int) entity.getGenome().getBlue()));
             if (entity.equals(selectedEntity)) {
                 // Evidenzia l'entità selezionata
                 gc.setFill(Color.YELLOW);
@@ -59,7 +57,7 @@ public class WorldCanvas extends Canvas {
     private void drawEntityVision(GraphicsContext gc, Entity entity) {
         double entityX = entity.getX();
         double entityY = entity.getY();
-        double sensorRange = entity.getSensorRange();
+        double sensorRange = entity.getGenome().getVisionRange();
 
         // A. Disegna il cerchio del raggio sensoriale
         gc.setStroke(Color.LIGHTBLUE);

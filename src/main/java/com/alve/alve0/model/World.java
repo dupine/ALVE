@@ -9,8 +9,8 @@ import java.util.Iterator;
 public class World {
     private List<Entity> entities = new ArrayList<>();
     private List<Food> foods = new ArrayList<>();
-    private static final int INITIAL_ENTITIES = 100;
-    private static final int INITIAL_FOOD = 500;
+    private static final int INITIAL_ENTITIES = 5;
+    private static final int INITIAL_FOOD = 50;
     private static final int width = 1200;
     private static final int height = 800;
     private static final int cellSize = 50;
@@ -22,6 +22,7 @@ public class World {
         initializeFood();
     }
 
+    // crea n entità in base a INITIAL_ENTITIES
     private void initializeEntities() {
         for (int i = 0; i < INITIAL_ENTITIES; i++) {
             double x = Math.random() * width;
@@ -30,6 +31,7 @@ public class World {
         }
     }
 
+    // crea n cibi in base a INITIAL_FOOD
     public void initializeFood() {
         Food food = null;
         for (int i = 0; i < INITIAL_FOOD; i++) {
@@ -45,24 +47,75 @@ public class World {
     }
 
     public void update() {
-        List<Entity> newEntities = new ArrayList<>();
-        Iterator<Entity> it = entities.iterator();
 
-        while (it.hasNext()) {
-            Entity e = it.next();
+        // se usassi un foreach normale mi darebbe errore quando muoiono le entità
+        Iterator<Entity> iterator = entities.iterator();
+        while (iterator.hasNext()) {
+            Entity e = iterator.next();
             e.update(this);
 
-            if (e.energy <= 0) {
-                it.remove();
-            } else if (e.energy > 300) {
-                e.energy /= 2;
-                newEntities.add(new Entity(e.x, e.y));
+            if (!e.isAlive()) {
+                iterator.remove();
+                if (e.getTargetFood() != null) {
+                    removeFood(e.getTargetFood());
+                }
             }
+
+            // qua si potrebbe gestire anche la riproduzione
         }
 
-        addRandomFood(5);
 
-        //entities.addAll(newEntities); // solo nuovi vivi
+        addRandomFood();
+
+        //entities.addAll(newEntities); // da cancellare
+    }
+
+    public void addEntity(Entity entity) {
+        entities.add(entity);
+    }
+
+    public void removeEntity(Entity entity) {
+        if (entity == null) return;
+        entities.remove(entity);
+        if (entity.getTargetFood() != null) {
+            removeFood(entity.getTargetFood());
+        }
+    }
+
+
+    // aggiungo cibo casuale fino a raggiungere INITIAL_FOOD
+    public void addRandomFood() {
+        if (foods.size() >= INITIAL_FOOD) return; // Controlla se il numero di cibi è già maggiore o uguale al limite
+
+        int count = INITIAL_FOOD - foods.size();
+
+        Food food = null;
+        for (int i = 0; i < count; i++) {
+            double x = Math.random() * width;
+            double y = Math.random() * height;
+            food = new Food(x, y);
+            foods.add(food);
+
+            GridCellKey key = getCellKeyForCoords(food.getX(), food.getY());
+            List<Food> foodInCell = this.foodSpatialGrid.computeIfAbsent(key, k -> new ArrayList<>());
+            foodInCell.add(food);
+        }
+    }
+
+    public void removeFood(Food food) {
+        if (food == null) return;
+        this.foods.remove(food);
+
+        GridCellKey key = getCellKeyForCoords(food.getX(), food.getY());
+        List<Food> foodInCell = this.foodSpatialGrid.get(key);
+
+        if (foodInCell != null) {
+            if (foodInCell.remove(food)) {
+                if (foodInCell.isEmpty()) {
+                    this.foodSpatialGrid.remove(key);
+                }
+            }
+        }
     }
 
     /**
@@ -110,40 +163,6 @@ public class World {
         int cellX = (int) Math.floor(worldX / cellSize);
         int cellY = (int) Math.floor(worldY / cellSize);
         return new GridCellKey(cellX, cellY);
-    }
-
-    public void addEntity(Entity entity) {
-        entities.add(entity);
-    }
-
-    public void addRandomFood(int count) {
-        Food food = null;
-        for (int i = 0; i < count; i++) {
-            double x = Math.random() * width;
-            double y = Math.random() * height;
-            food = new Food(x, y);
-            foods.add(food);
-
-            GridCellKey key = getCellKeyForCoords(food.getX(), food.getY());
-            List<Food> foodInCell = this.foodSpatialGrid.computeIfAbsent(key, k -> new ArrayList<>());
-            foodInCell.add(food);
-        }
-    }
-
-    public void removeFood(Food food) {
-        if (food == null) return;
-        this.foods.remove(food);
-
-        GridCellKey key = getCellKeyForCoords(food.getX(), food.getY());
-        List<Food> foodInCell = this.foodSpatialGrid.get(key);
-
-        if (foodInCell != null) {
-            if (foodInCell.remove(food)) {
-                if (foodInCell.isEmpty()) {
-                    this.foodSpatialGrid.remove(key);
-                }
-            }
-        }
     }
 
     public List<Entity> getEntities() {

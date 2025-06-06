@@ -11,7 +11,6 @@ public class SimulationEngine {
 
     public SimulationEngine(World world /*, altri manager */) {
         this.world = world;
-        // ... inizializza altri manager ...
     }
 
     public void tick() {
@@ -20,13 +19,8 @@ public class SimulationEngine {
         // 1. Aggiorna ambiente (es. crescita cibo nel mondo)
         world.update();
 
-        // 2. Aggiorna entità (movimento, IA, energia, etc.)
-        // Assumendo che world abbia un modo per ottenere le entità
         for (Entity entity : world.getEntities()) {
-            //entity.sense(world);
-            //entity.think(); // Qui la NN elabora input
-            //entity.act(world); // Qui l'entità esegue azioni
-            entity.update(world); // Es. perdita energia, invecchiamento
+            entity.update(world);
         }
 
         // 3. Gestisci nascite/morti (EvolutionManager?)

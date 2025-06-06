@@ -6,23 +6,24 @@ import java.util.ArrayList;
 
 public class Entity {
     public double x, y;
-    public double energy = 500;
     public int id;
     private static int idCounter = 1;
-    private static final double sensorRange = 50;
     private Food targetFood;
-    private final double speed = 2.0;
     private List<Food> nearbyFoodItems = new ArrayList<>();
+    private float energy; // Energia iniziale
+    StaticGenome genome;
 
     public Entity(double x, double y) {
         this.x = x;
         this.y = y;
         this.id = idCounter++;
+        genome = new StaticGenome();
+        this.energy = genome.getEnergy();
         targetFood = null;
     }
 
     public void update(World world) {
-        energy -= 0.1;
+        consume();
 
         findAndSetTargetFood(world);
 
@@ -35,8 +36,23 @@ public class Entity {
         clampPosition(world.getWidth(), world.getHeight());
     }
 
+    public void consume() {
+        this.energy -= genome.getMetabolism();
+    }
+
+    public float getEnergy() {
+        return energy;
+    }
+
+    public void increaseEnergy(float amount) {
+        this.energy += amount;
+        if (this.energy > 1000) { // Limite massimo di energia
+            this.energy = 1000;
+        }
+    }
+
     private void findAndSetTargetFood(World world) {
-        nearbyFoodItems = world.getNearbyFood(this.x, this.y, sensorRange);
+        nearbyFoodItems = world.getNearbyFood(this.x, this.y, genome.getVisionRange());
 
         Food closestFood = null;
         double minDistanceSquared = Double.POSITIVE_INFINITY;
@@ -54,11 +70,10 @@ public class Entity {
             }
         }
         this.targetFood = closestFood;
-        /*if (this.targetFood != null) {
-            System.out.println("Entity " + id + " targeting food " + targetFood.getId()); // Debug
-        }*/
     }
 
+
+    // da cancellare perchè sarà un apsetto da evolvere
     private void moveToTargetAndEat(World world) {
         double dx = targetFood.getX() - this.x;
         double dy = targetFood.getY() - this.y;
@@ -71,8 +86,8 @@ public class Entity {
             this.targetFood = null;
         } else {
             // Muovi verso il cibo
-            this.x += (dx / distance) * speed;
-            this.y += (dy / distance) * speed;
+            this.x += (dx / distance) * genome.getSpeed();
+            this.y += (dy / distance) * genome.getSpeed();
         }
     }
 
@@ -82,7 +97,7 @@ public class Entity {
 
     private void eat(Food foodItem, World world) {
         // System.out.println("Entity " + id + " is eating food " + foodItem.getId()); // Debug
-        this.energy += foodItem.getEnergy();
+        increaseEnergy(foodItem.getEnergy());
         world.removeFood(foodItem); // Il mondo gestisce la rimozione dalla griglia
     }
 
@@ -90,8 +105,8 @@ public class Entity {
 
     private void explore(World world) {
         double angle = random.nextDouble() * 2 * Math.PI; // Angolo casuale
-        this.x += Math.cos(angle) * speed * 0.5; // Esplora un po' più lentamente
-        this.y += Math.sin(angle) * speed * 0.5;
+        this.x += Math.cos(angle) * genome.getSpeed() * 0.5; // Esplora un po' più lentamente
+        this.y += Math.sin(angle) * genome.getSpeed() * 0.5;
     }
 
     private void clampPosition(int worldWidth, int worldHeight) {
@@ -114,7 +129,6 @@ public class Entity {
     public double getX() { return x; }
     public double getY() { return y; }
     public int getId() { return id; }
-    public double getEnergy() { return energy; }
     public Food getTargetFood() { return targetFood; }
-    public double getSensorRange() { return sensorRange; }
+    public StaticGenome getGenome() { return genome; }
 }

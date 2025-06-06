@@ -43,7 +43,6 @@ public class SimulationController implements SimulationControlListener {
 
                     view.getEntityInfoPane().displayEntityInfo(selectedEntity);
 
-                    // Esegui N passi di simulazione in base alla velocità
                     int steps = (int) Math.max(1, Math.round(deltaTime * 60 * speedFactor)); // Esempio: target 60 UPS
                     for (int i = 0; i < steps; i++) {
                         engine.tick();
