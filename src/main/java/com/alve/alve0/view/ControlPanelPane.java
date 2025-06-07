@@ -1,5 +1,6 @@
 package com.alve.alve0.view;
 
+import com.alve.alve0.model.World;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -17,6 +18,7 @@ public class ControlPanelPane extends VBox {
     private Button addEntityButton;
     private Slider speedSlider;
     private Label speedLabel;
+    private Label tickLabel;
 
     private SimulationControlListener listener;
     private boolean isPlaying = false;
@@ -62,7 +64,7 @@ public class ControlPanelPane extends VBox {
         });
 
         speedLabel = new Label("Simulation Speed:");
-        speedSlider = new Slider(0.1, 5.0, 1.0); // Min, Max, Default speed factor
+        speedSlider = new Slider(0.1, 50.0, 1.0); // Min, Max, Default speed factor
         speedSlider.setShowTickLabels(true);
         speedSlider.setShowTickMarks(true);
         speedSlider.setMajorTickUnit(1.0);
@@ -70,8 +72,9 @@ public class ControlPanelPane extends VBox {
             if (listener != null) listener.onSpeedChanged(newVal.doubleValue());
         });
 
+        tickLabel = new Label("Ticks: 0");
 
-        getChildren().addAll(title, playPauseButton, stepButton, addEntityButton, speedLabel, speedSlider);
+        getChildren().addAll(title, tickLabel, playPauseButton, stepButton, addEntityButton, speedLabel, speedSlider);
     }
 
     // collego il listener al controller, passandolo come parametro
@@ -82,5 +85,10 @@ public class ControlPanelPane extends VBox {
     public void updatePlayPauseButtonState(boolean isSimulationRunning) {
         this.isPlaying = isSimulationRunning;
         playPauseButton.setText(isPlaying ? "Pause" : "Play");
+    }
+
+    // metodo chiamato costantemente dal controller per aggiornare il numero di tick
+    public void displayWorldInfo(World world) {
+        tickLabel.setText("Ticks: " + world.getTickCounter());
     }
 }

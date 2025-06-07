@@ -15,6 +15,8 @@ public class World {
     private static final int height = 800;
     private static final int cellSize = 50;
 
+    private int tickCounter = 0;
+
     private Map<GridCellKey, List<Food>> foodSpatialGrid = new HashMap<>();
 
     public World() {
@@ -46,9 +48,11 @@ public class World {
         }
     }
 
-    public void update() {
+    // src/main/java/com/alve/alve0/model/World.java
 
-        // se usassi un foreach normale mi darebbe errore quando muoiono le entità
+    public void update() {
+        List<Entity> newEntities = new ArrayList<>();
+
         Iterator<Entity> iterator = entities.iterator();
         while (iterator.hasNext()) {
             Entity e = iterator.next();
@@ -59,15 +63,20 @@ public class World {
                 if (e.getTargetFood() != null) {
                     removeFood(e.getTargetFood());
                 }
+            } else if (e.canReproduce()) {
+                newEntities.add(e.reproduce());
+                e.increaseEnergy(-400); // Cost for reproduction
             }
-
-            // qua si potrebbe gestire anche la riproduzione
         }
 
+        entities.addAll(newEntities);
+
+        tickCounter++;
+        if (tickCounter % 200 == 0) {
+            addEntity(new Entity(Math.random() * width, Math.random() * height));
+        }
 
         addRandomFood();
-
-        //entities.addAll(newEntities); // da cancellare
     }
 
     public void addEntity(Entity entity) {
@@ -173,4 +182,5 @@ public class World {
     }
     public int getWidth() {return width;}
     public int getHeight() {return height;}
+    public int getTickCounter() {return tickCounter;}
 }

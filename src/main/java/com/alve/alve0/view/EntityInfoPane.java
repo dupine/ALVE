@@ -17,6 +17,7 @@ public class EntityInfoPane extends VBox {
     private Label energyLabel;
     private Label dnaLabel; //attualmente non mi serve, pensavo di usarlo per mostrare il "DNA" come una stringa di nucleotidi
     private GridPane genomeGrid;
+    private Label fitnesLabel;
 
     public EntityInfoPane() {
         super(10); // Spaziatura verticale tra elementi
@@ -34,7 +35,8 @@ public class EntityInfoPane extends VBox {
         idLabel = new Label("ID: ---");
         positionLabel = new Label("Position: ---");
         energyLabel = new Label("Energy: ---");
-        getChildren().addAll(titleLabel, idLabel, positionLabel, energyLabel, genomeGrid);
+        fitnesLabel = new Label("Fitness: ---");
+        getChildren().addAll(titleLabel, idLabel, positionLabel, energyLabel, fitnesLabel, genomeGrid);
     }
 
     public void displayEntityInfo(Entity entity) {
@@ -44,6 +46,7 @@ public class EntityInfoPane extends VBox {
             idLabel.setText("ID: " + entity.getId());
             positionLabel.setText(String.format("Position: (%.1f, %.1f)", entity.getX(), entity.getY()));
             energyLabel.setText("Energy: " + entity.getEnergy());
+            fitnesLabel.setText("Fitness: " + entity.getFitness());
             //dnaLabel.setText("DNA: " + entity.getGenome().toString());
 
             StaticGenome g = entity.getGenome();
@@ -59,6 +62,7 @@ public class EntityInfoPane extends VBox {
             idLabel.setText("ID: ---");
             positionLabel.setText("Position: ---");
             energyLabel.setText("Energy: ---");
+            fitnesLabel.setText("Fitness: ---");
             genomeGrid.getChildren().clear(); // vuota anche questa
         }
     }

@@ -10,6 +10,7 @@ public class SimulationView {
     private WorldCanvas worldCanvas;
     private EntityInfoPane entityInfoPane;
     private ControlPanelPane controlPanelPane;
+    private NeuralNetworkPane neuralNetworkPane;
 
     public SimulationView(double worldWidth, double worldHeight) {
         rootPane = new BorderPane();
@@ -18,13 +19,14 @@ public class SimulationView {
         worldCanvas = new WorldCanvas(worldWidth, worldHeight);
         entityInfoPane = new EntityInfoPane();
         controlPanelPane = new ControlPanelPane();
+        neuralNetworkPane = new NeuralNetworkPane();
 
         // Assembla le componenti nel layout principale
         rootPane.setCenter(worldCanvas); // Canvas al centro
 
         // Metti i pannelli di controllo e info in un VBox a destra
         VBox rightPanel = new VBox(10); // Spaziatura tra i due pannelli
-        rightPanel.getChildren().addAll(controlPanelPane, entityInfoPane);
+        rightPanel.getChildren().addAll(controlPanelPane, entityInfoPane, neuralNetworkPane);
         rootPane.setRight(rightPanel);
 
         // Puoi aggiungere altri elementi come menu, barre di stato, ecc.
@@ -48,5 +50,9 @@ public class SimulationView {
 
     public ControlPanelPane getControlPanelPane() {
         return controlPanelPane;
+    }
+
+    public NeuralNetworkPane getNeuralNetworkPane() {
+        return neuralNetworkPane;
     }
 }

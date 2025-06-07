@@ -42,6 +42,8 @@ public class SimulationController implements SimulationControlListener {
                 if (isRunning) {
 
                     view.getEntityInfoPane().displayEntityInfo(selectedEntity);
+                    view.getControlPanelPane().displayWorldInfo(world);
+                    view.getNeuralNetworkPane().displayNetwork(selectedEntity);
 
                     int steps = (int) Math.max(1, Math.round(deltaTime * 60 * speedFactor)); // Esempio: target 60 UPS
                     for (int i = 0; i < steps; i++) {
