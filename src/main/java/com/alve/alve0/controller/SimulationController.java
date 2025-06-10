@@ -6,7 +6,6 @@ import com.alve.alve0.view.SimulationView;
 import com.alve.alve0.model.Entity;
 import javafx.scene.input.MouseEvent;
 
-//questo controller gestisce il ciclo di animazione e le interazioni con la vista
 public class SimulationController implements SimulationControlListener {
 
     private SimulationEngine engine;
@@ -39,19 +38,17 @@ public class SimulationController implements SimulationControlListener {
                 double deltaTime = (now - lastUpdate) / 1_000_000_000.0; // secondi
                 lastUpdate = now;
 
+                view.getEntityInfoPane().displayEntityInfo(selectedEntity);
+                view.getControlPanelPane().displayWorldInfo(world);
+                view.getNeuralNetworkPane().displayNetwork(selectedEntity);
+
                 if (isRunning) {
-
-                    view.getEntityInfoPane().displayEntityInfo(selectedEntity);
-                    view.getControlPanelPane().displayWorldInfo(world);
-                    view.getNeuralNetworkPane().displayNetwork(selectedEntity);
-
-                    int steps = (int) Math.max(1, Math.round(deltaTime * 60 * speedFactor)); // Esempio: target 60 UPS
+                    int steps = (int) Math.max(1, Math.round(deltaTime * 60 * speedFactor));
                     for (int i = 0; i < steps; i++) {
                         engine.tick();
                     }
                 }
 
-                // Aggiorna la vista passando i dati necessari
                 view.getWorldCanvas().render(world.getEntities(), world.getFoods(), selectedEntity);
             }
         };
@@ -91,8 +88,10 @@ public class SimulationController implements SimulationControlListener {
     @Override
     public void onAddEntityClicked() {
         // Logica per aggiungere un'entità casuale nel mondo
-        Entity newEntity = new Entity(Math.random() * world.getWidth(), Math.random() * world.getHeight());
-        world.addEntity(newEntity); // Assumendo che World abbia questo metodo
+        for (int i = 0; i<100; i++) {
+            Entity newEntity = new Entity(Math.random() * world.getWidth(), Math.random() * world.getHeight());
+            world.addEntity(newEntity);
+        }
         System.out.println("Added new entity");
         // Aggiorna subito la vista
         view.getWorldCanvas().render(world.getEntities(), world.getFoods(), selectedEntity);

@@ -10,7 +10,7 @@ public class World {
     private List<Entity> entities = new ArrayList<>();
     private List<Food> foods = new ArrayList<>();
     private static final int INITIAL_ENTITIES = 5;
-    private static final int INITIAL_FOOD = 50;
+    private static final int INITIAL_FOOD = 5000;
     private static final int width = 1200;
     private static final int height = 800;
     private static final int cellSize = 50;
@@ -48,8 +48,6 @@ public class World {
         }
     }
 
-    // src/main/java/com/alve/alve0/model/World.java
-
     public void update() {
         List<Entity> newEntities = new ArrayList<>();
 
@@ -65,7 +63,7 @@ public class World {
                 }
             } else if (e.canReproduce()) {
                 newEntities.add(e.reproduce());
-                e.increaseEnergy(-400); // Cost for reproduction
+                e.increaseEnergy(-100);
             }
         }
 

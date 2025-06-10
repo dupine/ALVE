@@ -6,8 +6,8 @@ import com.alve.alve0.model.World;
 // Questo è il motore di simulazione principale che gestisce il ciclo di vita della simulazione
 public class SimulationEngine {
     private World world;
-    // Riferimenti ad altri manager (EntityManager, EvolutionManager, etc.)
-    private boolean isPaused = true; // Stato iniziale
+
+    private boolean isPaused = true;
 
     public SimulationEngine(World world /*, altri manager */) {
         this.world = world;
@@ -16,19 +16,11 @@ public class SimulationEngine {
     public void tick() {
         if (isPaused) return;
 
-        // 1. Aggiorna ambiente (es. crescita cibo nel mondo)
         world.update();
 
         for (Entity entity : world.getEntities()) {
             entity.update(world);
         }
-
-        // 3. Gestisci nascite/morti (EvolutionManager?)
-        // evolutionManager.handleLifecycle(world.getEntities());
-
-        // 4. Aggiorna statistiche
-        // statsManager.updateStats(world);
-
     }
 
     public void start() { isPaused = false; }

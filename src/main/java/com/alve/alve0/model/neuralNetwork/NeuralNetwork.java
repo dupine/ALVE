@@ -8,12 +8,17 @@ public class NeuralNetwork {
     private Layer outputLayer;
 
     public NeuralNetwork(int inputCount, int hiddenCount, int outputCount) {
-        Neuron.setWeightRange(-1f, 1f); // Range iniziale dei pesi
+        Neuron.setWeightRange(-1f, 1f); // Initial weight range
 
         inputLayer = new Layer(new float[inputCount]);
-        hiddenLayers = new Layer[1]; // Puoi aumentare il numero di hidden layer se vuoi
-        hiddenLayers[0] = new Layer(inputCount, hiddenCount);
-        outputLayer = new Layer(hiddenCount, outputCount);
+        if (hiddenCount > 0) {
+            hiddenLayers = new Layer[1];
+            hiddenLayers[0] = new Layer(inputCount, hiddenCount);
+            outputLayer = new Layer(hiddenCount, outputCount);
+        } else {
+            hiddenLayers = new Layer[0];
+            outputLayer = new Layer(inputCount, outputCount);
+        }
     }
 
     public float[] forward(float[] inputs) {
