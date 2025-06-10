@@ -33,7 +33,7 @@ public class Entity {
         targetFood = null;
         fitness = 0;
 
-        brain = new NeuralNetwork(12, 16, 3);
+        brain = new NeuralNetwork(12, 8, 3);
     }
 
     public void update(World world) {

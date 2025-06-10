@@ -40,10 +40,19 @@ The initial version of the program is a simple random movement simulation. Entit
   <img src="/images/screenshots/SpatialHashMapExample.png" alt="Spatial HashMap Example" width="500">
 </p>
 
+Each entity has a genome that contains information about its size, speed, energy, and other parameters. The genome is used to determine the entity's characteristics and behavior. The simulation also includes a simple reproduction system where entities can reproduce if they have enough energy. The child has a mutated genome of the parent.
+<p align="center">
+  <img src="/images/screenshots/entityYellow.png" alt="Yellow entity" width="250">
+  <img src="/images/screenshots/entityPane.png" alt="Entity pane" width="250">
+</p>
+
+They also have a neural network that can be used for decision-making. The neural network is a simple feedforward network with an input layer, hidden layer, and output layer. The input layer receives information about the entity's state, such as its position, energy level, and nearby food sources. The hidden layer processes this information, and the output layer generates actions for the entity, such as moving in a specific direction or reproducing.  
+
+
 ## TODO
 - [ ] Reproduction system
-- [ ] Genetic Algorithm
 - [ ] Fitness Evaluation and Decision-Making Neural Network
+- [ ] NEAT (NeuroEvolution of Augmenting Topologies)
 - [ ] UI Improvements
 - [ ] Initial Development of Speciation System
 - [ ] Biome Implementation
